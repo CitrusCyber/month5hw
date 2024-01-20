@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Navigate } from 'react-router-dom';
+import axios from 'axios';
 
 const CreatePost = () => {
     const [postTitle, setPostTitle] = useState('');
@@ -7,17 +8,13 @@ const CreatePost = () => {
 
     const handleCreatePost = async () => {
         try {
-            const response = await fetch('https://dummyjson.com/posts/add', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    title: postTitle,
-                    userId: 5,
-                })
+            const response = await axios.post('https://dummyjson.com/posts/add', {
+                title: postTitle,
+                userId: 5,
             });
 
-            if (!response.ok) {
-                 new Error('Не удалось создать новый пост');
+            if (response.status !== 200) {
+                new Error('Не удалось создать новый пост');
             }
 
             setPostCreated(true);
