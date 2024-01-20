@@ -1,35 +1,20 @@
-import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 
-const Home = ({ createdPosts }) => {
-    const [posts, setPosts] = useState([]);
-
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await fetch('https://dummyjson.com/posts');
-                const data = await response.json();
-
-                if (Array.isArray(data.posts)) {
-                    setPosts([...createdPosts, ...data.posts]);
-                } else {
-                    console.error('Data Posts is not an array:', data);
-                }
-            } catch (error) {
-                console.error('Error fetching data:', error);
-            }
-        };
-
-        fetchData();
-    }, [createdPosts]);
-
+const Home = () => {
     return (
         <div>
-            <h2>Posts</h2>
-            <ul>
-                {posts.map((post) => (
-                    <li key={post.id}>{post.title}</li>
-                ))}
-            </ul>
+            <h1>Home</h1>
+            <p>Добро пожаловать :)</p>
+            <nav>
+                <ul>
+                    <li>
+                        <Link to="/posts">Список постов</Link>
+                    </li>
+                    <li>
+                        <Link to="/create-post">Создать пост</Link>
+                    </li>
+                </ul>
+            </nav>
         </div>
     );
 };

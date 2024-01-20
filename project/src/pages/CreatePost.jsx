@@ -1,27 +1,44 @@
 import { useState } from 'react';
+import { Navigate } from 'react-router-dom';
 
-const CreatePost = ({ onPostCreated }) => {
-    const [title, setTitle] = useState('');
-    const [body, setBody] = useState('');
+const CreatePost = () => {
+    const [postTitle, setPostTitle] = useState('');
+    const [postCreated, setPostCreated] = useState(false);
 
     const handleCreatePost = async () => {
-        const newPost = { id: 101, title, body };
+        try {
+            const response = await fetch('https://dummyjson.com/posts/add', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    title: postTitle,
+                    userId: 5,
+                })
+            });
 
-        onPostCreated(newPost);
+            if (!response.ok) {
+                 new Error('Не удалось создать новый пост');
+            }
+
+            setPostCreated(true);
+        } catch (error) {
+            console.error('Ошибка при создании нового поста:', error.message);
+        }
     };
+
+    if (postCreated) {
+        return <Navigate to="/posts" />;
+    }
 
     return (
         <div>
-            <h2>Create Post</h2>
-            <div>
-                <label>Title: </label>
-                <input type="text" value={title} onChange={(e) => setTitle(e.target.value)} />
-            </div>
-            <div>
-                <label>Body: </label>
-                <textarea value={body} onChange={(e) => setBody(e.target.value)} />
-            </div>
-            <button onClick={handleCreatePost}>Create Post</button>
+            <input
+                type="text"
+                placeholder="Заголовок поста"
+                value={postTitle}
+                onChange={(e) => setPostTitle(e.target.value)}
+            />
+            <button onClick={handleCreatePost}>Создать пост</button>
         </div>
     );
 };

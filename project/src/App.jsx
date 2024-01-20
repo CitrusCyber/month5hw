@@ -1,24 +1,17 @@
-import { useState } from 'react';
-import { BrowserRouter, Routes, Route} from 'react-router-dom';
-import Home from './pages/Home.jsx';
+import React from 'react';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import PostsList from './pages/PostsList.jsx';
 import CreatePost from './pages/CreatePost.jsx';
-import Layout from './components/Layout.jsx';
+import Home from "./pages/Home.jsx";
 
 const App = () => {
-    const [createdPosts, setCreatedPosts] = useState([]);
-
-    const handlePostCreated = (newPost) => {
-        setCreatedPosts((prevPosts) => [...prevPosts, newPost]);
-    };
-
     return (
         <BrowserRouter>
-            <Layout>
-                <Routes>
-                    <Route path="/" element={<Home createdPosts={createdPosts} />}/>
-                    <Route path="/create" element={<CreatePost onPostCreated={handlePostCreated} />}/>
-                </Routes>
-            </Layout>
+            <Routes>
+                <Route path="/" element={<Home/>} />
+                <Route path="/posts" element={<PostsList />} />
+                <Route path="/create-post" element={<CreatePost />} />
+            </Routes>
         </BrowserRouter>
     );
 };
