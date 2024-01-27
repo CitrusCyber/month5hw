@@ -1,16 +1,17 @@
 import React from 'react';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import Home from "./pages/Home.jsx";
-import PostsPage from "./pages/PostsPage.jsx";
+import { Provider } from 'react-redux';
+import store from './pages/store.jsx';
+import UserForm from './components/UserForm';
+import UserDetails from './components/UserDetails';
 
 const App = () => {
     return (
-        <BrowserRouter>
-            <Routes>
-                <Route path="/" element={<Home/>} />
-                <Route path="/posts" element={<PostsPage />} />
-            </Routes>
-        </BrowserRouter>
+        <Provider store={store}>
+            <div>
+                <UserForm />
+                <UserDetails />
+            </div>
+        </Provider>
     );
 };
 
