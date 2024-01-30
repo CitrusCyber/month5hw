@@ -1,17 +1,21 @@
-import React from 'react';
-import { Provider } from 'react-redux';
-import store from './pages/store.jsx';
-import UserForm from './components/UserForm';
-import UserDetails from './components/UserDetails';
+import React, { useState } from 'react';
+import Navbar from './components/NavBar.jsx';
+import ProductList from './components/ProductList.jsx';
+import products from './data/products.json';
 
 const App = () => {
+    const [cartCount, setCartCount] = useState(0);
+
+    const handleBuyClick = (productId) => {
+        setCartCount((prevCount) => prevCount + 1);
+        console.log(`Товар с ID ${productId} добавлен в корзину!`);
+    };
+
     return (
-        <Provider store={store}>
-            <div>
-                <UserForm />
-                <UserDetails />
-            </div>
-        </Provider>
+        <div>
+            <Navbar cartCount={cartCount} />
+            <ProductList products={products} onBuyClick={handleBuyClick} />
+        </div>
     );
 };
 
