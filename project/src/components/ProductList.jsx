@@ -1,12 +1,14 @@
 import React from 'react';
-import Product from './Product.jsx';
 
 const ProductList = ({ products, onBuyClick }) => {
     return (
         <div>
-            <h2>Список товаров</h2>
+            <h3>Список товаров</h3>
             {products.map((product) => (
-                <Product key={product._id} product={product} onBuyClick={onBuyClick} />
+                <div key={product._id}>
+                    <p>{product.name} - {product.price} руб.</p>
+                    <button onClick={() => onBuyClick(product)}>Купить</button>
+                </div>
             ))}
         </div>
     );

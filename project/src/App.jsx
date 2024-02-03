@@ -1,20 +1,31 @@
-import React, { useState } from 'react';
+import React, { useReducer } from 'react';
 import Navbar from './components/NavBar.jsx';
 import ProductList from './components/ProductList.jsx';
-import products from './data/products.json';
+import Cart from './components/Cart.jsx';
+import productsData from './data/products.json';
+
+const cartReducer = (state, action) => {
+    switch (action.type) {
+        case 'ADD_TO_CART':
+            return [...state, action.payload];
+        default:
+            return state;
+    }
+};
 
 const App = () => {
-    const [cartCount, setCartCount] = useState(0);
+    const [cartItems, dispatch] = useReducer(cartReducer, []);
+    const [products] = React.useState(productsData);
 
-    const handleBuyClick = (productId) => {
-        setCartCount((prevCount) => prevCount + 1);
-        console.log(`Товар с ID ${productId} добавлен в корзину!`);
+    const handleBuyClick = (product) => {
+        dispatch({ type: 'ADD_TO_CART', payload: product });
     };
 
     return (
         <div>
-            <Navbar cartCount={cartCount} />
-            <ProductList products={products} onBuyClick={handleBuyClick} />
+            <Navbar cartCount={cartItems.length} />
+                <ProductList products={products} onBuyClick={handleBuyClick} />
+                <Cart cartItems={cartItems} />
         </div>
     );
 };
