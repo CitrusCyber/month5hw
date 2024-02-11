@@ -1,14 +1,17 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 
-const Cart = ({ cartItems }) => {
+const Cart = () => {
+    const cartItems = useSelector((state) => state.cart.items);
+
     return (
         <div>
             <h3>Корзина</h3>
-            {cartItems.map((item) => (
-                <div key={item.id}>
-                    <p>{item.name} - {item.price} руб.</p>
-                </div>
-            ))}
+            <ul>
+                {cartItems.map((item) => (
+                    <li key={item._id}>{item.name} - {item.price}</li>
+                ))}
+            </ul>
         </div>
     );
 };
